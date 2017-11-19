@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\GearSDK">
+      <UniqueIdentifier>{bfb319f0-abf1-45ab-b9d7-572bf7422b46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GearSDK\GearObjects">
+      <UniqueIdentifier>{8a610e1c-f45d-4a47-8ea2-36c8ea861ef1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FANN">
+      <UniqueIdentifier>{d308f173-94ab-409b-8f96-749fdbd13158}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\_oldTests">
+      <UniqueIdentifier>{ea9a21ba-bf16-4f31-a03b-4103476cc651}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Dependencies\GearSDK_CPP\Cpp_Client.cpp">
+      <Filter>Source Files\GearSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\GearSDK_CPP\cpp_Connection.cpp">
+      <Filter>Source Files\GearSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\GearSDK_CPP\cpp_Wrapper.cpp">
+      <Filter>Source Files\GearSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\GearSDK_CPP\Gear_Objects\Gear_Button_cpp.cpp">
+      <Filter>Source Files\GearSDK\GearObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\GearSDK_CPP\Gear_Objects\Gear_MPU6050_cpp.cpp">
+      <Filter>Source Files\GearSDK\GearObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\GearSDK_CPP\Gear_Objects\Gear_Potentiometer_cpp.cpp">
+      <Filter>Source Files\GearSDK\GearObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\GearSDK_CPP\Gear_Objects\Gear_RGBLed_cpp.cpp">
+      <Filter>Source Files\GearSDK\GearObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\GearSDK_CPP\Gear_Objects\Gear_Servo_cpp.cpp">
+      <Filter>Source Files\GearSDK\GearObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="ComputerEye.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Serial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\FANN\src\fann.c">
+      <Filter>Source Files\FANN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\FANN\src\fann_error.c">
+      <Filter>Source Files\FANN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\FANN\src\fann_io.c">
+      <Filter>Source Files\FANN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\FANN\src\fann_cascade.c">
+      <Filter>Source Files\FANN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\FANN\src\fann_train.c">
+      <Filter>Source Files\FANN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dependencies\FANN\src\fann_train_data.c">
+      <Filter>Source Files\FANN</Filter>
+    </ClCompile>
+    <ClCompile Include="NeuralNetwork.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fannTest.cpp">
+      <Filter>Source Files\_oldTests</Filter>
+    </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <Filter>Source Files\_oldTests</Filter>
+    </ClCompile>
+    <ClCompile Include="Source1.cpp">
+      <Filter>Source Files\_oldTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GetScreenCropped.cpp">
+      <Filter>Source Files\_oldTests</Filter>
+    </ClCompile>
+    <ClCompile Include="GetScreen.cpp">
+      <Filter>Source Files\_oldTests</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Dependencies\GearSDK_CPP\Cpp_Client.h">
+      <Filter>Source Files\GearSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\GearSDK_CPP\cpp_Connection.h">
+      <Filter>Source Files\GearSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\GearSDK_CPP\cpp_Wrapper.h">
+      <Filter>Source Files\GearSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\GearSDK_CPP\Helper.h">
+      <Filter>Source Files\GearSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\GearSDK_CPP\Gear_Objects\Gear_Button_cpp.h">
+      <Filter>Source Files\GearSDK\GearObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\GearSDK_CPP\Gear_Objects\Gear_MPU6050_cpp.h">
+      <Filter>Source Files\GearSDK\GearObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\GearSDK_CPP\Gear_Objects\Gear_Potentiometer_cpp.h">
+      <Filter>Source Files\GearSDK\GearObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\GearSDK_CPP\Gear_Objects\Gear_RGBLed_cpp.h">
+      <Filter>Source Files\GearSDK\GearObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Dependencies\GearSDK_CPP\Gear_Objects\Gear_Servo_cpp.h">
+      <Filter>Source Files\GearSDK\GearObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="ComputerEye.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Helper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Callbacks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Serial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NeuralNetwork.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

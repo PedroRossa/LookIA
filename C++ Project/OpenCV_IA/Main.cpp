@@ -139,7 +139,7 @@ int main(int argc, char **argv)
 	//set the callback function for any mouse event
 	setMouseCallback(computerEye.GetMainWindowName(), MouseCallbackFunc, NULL);
 	
-	//while (SP->IsConnected())
+	while (SP->IsConnected())
 	while (true)
 	{
 		computerEye.Update();
@@ -151,6 +151,13 @@ int main(int argc, char **argv)
 		
 		if (nnInitialized)
 		{
+			readResult = SP->ReadData(incomingData, dataLength);
+			if (readResult > 0) {
+				if (incomingData[0] == '1')
+				{
+					canOperate = true;
+				}
+			}
 			fann_type* out = neuralNetwork->Run(computerEye.GetSmallScreen().data); 
 			isEndGame = CheckEndGameState(out[0]);
 
@@ -160,8 +167,12 @@ int main(int argc, char **argv)
 			}
 			else
 			{
-
 				cout << "OUT:" << out[0] << endl;
+				if (out[0] > 0.5f && canOperate)
+				{
+					SP->WriteData("1", 2);
+					canOperate = false;
+				}
 			}
 		}
 

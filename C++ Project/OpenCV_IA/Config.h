@@ -8,6 +8,9 @@
 //SERIAL STUFF
 
 Serial* SP;
+bool canOperate = true;
+
+
 NeuralNetwork* neuralNetwork;
 bool nnInitialized = false;
 

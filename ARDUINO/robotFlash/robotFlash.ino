@@ -2,11 +2,9 @@
 
 static int fingerPin = 2;
 String receivedMessage = "";
-char fingerDirection = 0;
-char lastDirection = 0;
 
-int fingerDown = 0;
-int fingerUp = 25 ;
+int fingerDown = 25;
+int fingerUp = 0;
 
 Servo finger;
 
@@ -19,20 +17,39 @@ void MoveFinger(char dir){
   }
 }
 
+void SetFingerAngleUP(int angle){
+  fingerUp = angle;
+}
+
+void SetFingerAngleDown(int angle){
+  fingerDown = angle;
+}
+
+void PressButton(){
+  finger.attach(fingerPin);
+  finger.write(fingerDown);   
+  delay(130);
+  finger.write(fingerUp);
+  delay(130);
+  finger.detach();
+  Serial.println('1');
+}
+
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("OLAR");
-  finger.attach(fingerPin);
-  finger.write(0);  
+  Serial.println("Hi software, please TEACH ME!!!");
 }
 
-void loop() {
-   fingerDirection = Serial.read();
-   if(fingerDirection != lastDirection)
-   {
-    lastDirection = fingerDirection;
-    MoveFinger(fingerDirection);
-   }
-   delay(10);
+void loop() 
+{
+   char command = Serial.read();
+   if(command == '1')
+      PressButton();
+  //  if(fingerDirection != lastDirection)
+  //  {
+  //   lastDirection = fingerDirection;
+  //   MoveFinger(fingerDirection);
+  //  }
+  //  delay(10);
 }

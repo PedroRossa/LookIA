@@ -21,7 +21,7 @@ public:
 #pragma region Constructors
 
 	NeuralNetwork();
-	NeuralNetwork(int numInput, unsigned char* weights, int numOutput = 1, int numLayers = 2, int numHiddenNeurons = 0);
+	NeuralNetwork(int numInput, int numOutput = 1, int numLayers = 2, int numHiddenNeurons = 0);
 	~NeuralNetwork();
 
 #pragma endregion
@@ -41,7 +41,7 @@ public:
 
 #pragma region Public Methods
 
-	void SetWeights(unsigned char* values);
+	void SetWeights(float* values);
 
 	fann_type* Run(unsigned char* inputValues);
 

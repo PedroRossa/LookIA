@@ -110,6 +110,7 @@ Mat ComputerEye::GetCroppedScreen(bool gray)
 		return this->croppedScreen;
 }
 Mat ComputerEye::GetSmallScreen() { return this->smallScreen; }
+
 bool ComputerEye::UseAtualCroppedImage() { return this->useAtualCroppedImage; }
 vec2 ComputerEye::GetCroppedPos() { return this->croppedPos; }
 vec2 ComputerEye::GetCroppedSize() { return this->croppedSize; }
@@ -119,11 +120,11 @@ bool ComputerEye::ShowSmallWindow() { return this->showSmallWindow; }
 
 
 void ComputerEye::SetMainWindowName(char* name) { this->mainWindowName = name; }
-void ComputerEye::SetCropedScreen(vec2 bottomLeft , vec2 upperRight)
+void ComputerEye::SetCropedScreen(vec2 bottomLeft , vec2 width)
 { 
 	try
 	{
-		this->croppedScreen = CropMatrix(this->screen, bottomLeft, upperRight);
+		this->croppedScreen = CropMatrix(this->screen, bottomLeft, width);
 		//Set Gray cropped screen
 		cvtColor(this->croppedScreen, this->croppedScreen_Gray, CV_BGR2GRAY);
 	}
@@ -136,6 +137,7 @@ void ComputerEye::SetCropedScreen(vec2 bottomLeft , vec2 upperRight)
 void ComputerEye::SetDesktopScale(float scale) { this->desktopScale = scale; }
 
 void ComputerEye::SetSmallScreen(Mat screen) { this->smallScreen = screen; }
+
 void ComputerEye::UseAtualCroppedImage(bool val) { this->useAtualCroppedImage = val; }
 void ComputerEye::SetCroppedPos(vec2 pos) { this->croppedPos = pos; }
 void ComputerEye::SetCroppedSize(vec2 pos) { this->croppedSize = pos; }

@@ -4,6 +4,7 @@
 #include "ComputerEye.h"
 #include "Serial.h"
 #include "NeuralNetwork.h"
+#include "../Dependencies/GeneticAlgorithm/World.h"
 
 //SERIAL STUFF
 
@@ -13,13 +14,6 @@ bool canOperate = true;
 
 NeuralNetwork* neuralNetwork;
 bool nnInitialized = false;
-
-float* lastOutputs;
-
-const int outputBufferSize = 5;
-int outputCount = 0;
-bool isEndGame = false;
-
 
 char incomingData[256] = "";// don't forget to pre-allocate memory
 							//printf("%s\n",incomingData);
@@ -44,5 +38,21 @@ int key = 0;
 
 vec2 mouseDown;
 vec2 mouseUp;
+
+vec2 defaultMouseDown(205, 150);
+
+
+clock_t startClock;
+float duration;
+
+bool isEndGame = false;
+float lastOutput;
+clock_t endGameClock;
+float endGameMaxTimer = 0.5f;
+float endGameTimer = 0;
+
+int jumpCounter = 0;
+
+World* w;
 
 #endif

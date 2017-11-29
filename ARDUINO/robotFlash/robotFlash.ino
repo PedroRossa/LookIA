@@ -1,10 +1,11 @@
+
 #include <Servo.h>
 
 static int fingerPin = 2;
 String receivedMessage = "";
 
-int fingerDown = 25;
-int fingerUp = 0;
+int fingerDown = 45;
+int fingerUp = 20;
 
 Servo finger;
 
@@ -28,9 +29,9 @@ void SetFingerAngleDown(int angle){
 void PressButton(){
   finger.attach(fingerPin);
   finger.write(fingerDown);   
-  delay(130);
+  delay(80);
   finger.write(fingerUp);
-  delay(130);
+  delay(80);
   finger.detach();
   Serial.println('1');
 }

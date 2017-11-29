@@ -6,7 +6,7 @@ NeuralNetwork::NeuralNetwork()
 {
 }
 
-NeuralNetwork::NeuralNetwork(int numInput, unsigned char* weights, int numOutput, int numLayers, int numHiddenNeurons)
+NeuralNetwork::NeuralNetwork(int numInput, int numOutput, int numLayers, int numHiddenNeurons)
 {
 	this->numInput = numInput;
 	this->numOutput = numOutput;
@@ -22,8 +22,6 @@ NeuralNetwork::NeuralNetwork(int numInput, unsigned char* weights, int numOutput
 
 	fann_set_activation_function_hidden(ann, FANN_SIGMOID);
 	fann_set_activation_function_output(ann, FANN_SIGMOID);
-
-	//SetWeights(weights);
 }
 
 NeuralNetwork::~NeuralNetwork()
@@ -48,24 +46,31 @@ struct fann* NeuralNetwork::GetAnn() { return this->ann; }
 
 #pragma region Public Methods
 
-void NeuralNetwork::SetWeights(unsigned char* values)
+void NeuralNetwork::SetWeights(float* values)
 {
+	fann_connection* connections = new fann_connection[sizeof(struct fann_connection) * ann->total_connections];
+	fann_get_connection_array(ann, connections);
+
 	for (size_t i = 0; i < ann->total_connections; i++)
 	{
-		ann->weights[i] = values[i];
+		connections[i].weight = values[i];
 	}
+
+	fann_set_weight_array(ann, connections, ann->total_connections);
+
+	delete connections;
 }
 
 fann_type* NeuralNetwork::Run(unsigned char* inputValues)
 {
-	//minus 1 because of the BIAS (the last value is the BIAS)
-	fann_type* inputs = new fann_type[ann->total_connections-1];
-	for (size_t i = 0; i < ann->total_connections-1; i++)
+	fann_type* inputs = new fann_type[this->numInput];
+	for (size_t i = 0; i < this->numInput; i++)
 	{
-		inputs[i] = inputValues[i]/255;
+		inputs[i] = inputValues[i]/255.0f;
 	}
 
 	fann_type* out = fann_run(ann, inputs);
+	float ff = out[0];
 	delete inputs;
 
 	return out;

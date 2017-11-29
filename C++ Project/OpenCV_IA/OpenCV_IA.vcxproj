@@ -135,6 +135,12 @@
     <ClCompile Include="..\Dependencies\GearSDK_CPP\Gear_Objects\Gear_Potentiometer_cpp.cpp" />
     <ClCompile Include="..\Dependencies\GearSDK_CPP\Gear_Objects\Gear_RGBLed_cpp.cpp" />
     <ClCompile Include="..\Dependencies\GearSDK_CPP\Gear_Objects\Gear_Servo_cpp.cpp" />
+    <ClCompile Include="..\Dependencies\GeneticAlgorithm\Chromosome.cpp" />
+    <ClCompile Include="..\Dependencies\GeneticAlgorithm\Genetic.cpp" />
+    <ClCompile Include="..\Dependencies\GeneticAlgorithm\Individual.cpp" />
+    <ClCompile Include="..\Dependencies\GeneticAlgorithm\Player.cpp" />
+    <ClCompile Include="..\Dependencies\GeneticAlgorithm\World.cpp" />
+    <ClCompile Include="..\Dependencies\GeneticAlgorithm\WorldConfig.cpp" />
     <ClCompile Include="ComputerEye.cpp" />
     <ClCompile Include="fannTest.cpp" />
     <ClCompile Include="GetScreenCropped.cpp" />
@@ -155,6 +161,12 @@
     <ClInclude Include="..\Dependencies\GearSDK_CPP\Gear_Objects\Gear_RGBLed_cpp.h" />
     <ClInclude Include="..\Dependencies\GearSDK_CPP\Gear_Objects\Gear_Servo_cpp.h" />
     <ClInclude Include="..\Dependencies\GearSDK_CPP\Helper.h" />
+    <ClInclude Include="..\Dependencies\GeneticAlgorithm\Chromosome.h" />
+    <ClInclude Include="..\Dependencies\GeneticAlgorithm\Genetic.h" />
+    <ClInclude Include="..\Dependencies\GeneticAlgorithm\Individual.h" />
+    <ClInclude Include="..\Dependencies\GeneticAlgorithm\Player.h" />
+    <ClInclude Include="..\Dependencies\GeneticAlgorithm\World.h" />
+    <ClInclude Include="..\Dependencies\GeneticAlgorithm\WorldConfig.h" />
     <ClInclude Include="Callbacks.h" />
     <ClInclude Include="ComputerEye.h" />
     <ClInclude Include="Config.h" />

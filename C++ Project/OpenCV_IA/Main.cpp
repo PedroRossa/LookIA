@@ -18,13 +18,19 @@ void SetCropScreenByDragMouse()
 	}
 }
 
-void SetCropScreenByClick(vec2 size)
+void SetCropScreenByClick(vec2 size, bool useDefaultValue = false)
 {
-	vec2 cropPos(mouseDown.x, mouseDown.y);
+	if (useDefaultValue)
+	{
+		computerEye.SetCroppedPos(defaultMouseDown);
+	}
+	else
+	{
+		vec2 cropPos(mouseDown.x, mouseDown.y);
+		computerEye.SetCroppedPos(cropPos);
+	}
 
-	computerEye.SetCroppedPos(cropPos);
 	computerEye.SetCroppedSize(size);
-
 	computerEye.ShowSmallWindow(true);
 }
 
@@ -76,29 +82,26 @@ void InitSerial()
 	SP = new Serial("\\\\.\\COM11");    // adjust as needed
 
 	if (SP->IsConnected())
-		printf("We're connected");
+		cout <<"We're connected" << endl;
 }
 
 void UpdateSerial()
 {
 	readResult = SP->ReadData(incomingData, dataLength);
-	// printf("Bytes read: (0 means no data available) %i\n",readResult);
-	incomingData[readResult] = 0;
-
-	printf("%s", incomingData);
-
-	Sleep(450);
-	SP->WriteData("0", 2);
-	Sleep(100);
-	SP->WriteData("1", 2);
-
-	key = waitKey(15); // you can change wait time
-	if (key == 97)
-	{
-		SP->WriteData("0", 2);
-		Sleep(100);
-		SP->WriteData("1", 2);
+	if (readResult > 0) {
+		if (incomingData[0] == '1')
+		{
+			canOperate = true;
+		}
 	}
+}
+ 
+void InitGeneticAlgorithm(int numberOfWeights)
+{
+	WorldConfig config(10, 10000, 25, 20, 2, true, 2);
+	w = new World(config, numberOfWeights);
+
+	w->Start();
 }
 
 void InitNeuralNetwork()
@@ -107,28 +110,88 @@ void InitNeuralNetwork()
 	int h = computerEye.GetSmallScreen().rows;
 	int size = w*h;
 	
-	unsigned char* weights = new unsigned char[size];
+	neuralNetwork = new NeuralNetwork(size,1,3,20); 
 
-	neuralNetwork = new NeuralNetwork(size, weights);
-
-	lastOutputs = new float[outputBufferSize];
+	unsigned int numberOfWeights = neuralNetwork->GetAnn()->total_connections;
+	InitGeneticAlgorithm(numberOfWeights);
 }
 
 bool CheckEndGameState(float output)
 {
-	lastOutputs[outputCount] = output;
-	outputCount++;
-
-	if (outputCount > outputBufferSize)
-		outputCount = 0;
-
-	for (size_t i = 0; i < outputBufferSize; i++)
+	if (output != lastOutput)
 	{
-		if (output != lastOutputs[i])
-			return false;
+		lastOutput = output;
+		endGameClock = clock();
 	}
+	else
+	{
+		endGameTimer = (clock() - endGameClock) / (float)CLOCKS_PER_SEC;
+		if (endGameTimer > endGameMaxTimer)
+			return true;
+	}
+	return false;
+}
+
+void SaveFrameOnFile(string path)
+{
+	int totalSize = computerEye.GetSmallScreen().cols * computerEye.GetSmallScreen().rows;
+
+	ofstream jumpFrames;
+	jumpFrames.open(path,ofstream::app);
+
+	for (size_t i = 0; i < totalSize; i++)
+	{
+		bool pixelState;
+		unsigned char c = computerEye.GetSmallScreen().data[i];
+		if (c > 0)
+			pixelState = 1;
+		else
+			pixelState = 0;
+
+		jumpFrames << pixelState;
+	}
+	jumpFrames << endl;
+	jumpFrames.close();
+}
+
+void ReadFrameFromFile(string path)
+{
+	ifstream infile(path);
+
+	string line;
+	while (getline(infile, line))
+	{
+		for (size_t i = 0; i < line.size(); i++)
+		{
+			cout << line[i];
+		}
+		cout << endl;
+	}
+}
+
+void UpdateScreens()
+{
+	computerEye.Update();
+
+	SetCropScreenByClick(vec2(125,60), true);
+	CreateTrackBars();
+	ManageSmallScreen();
+
+ 	int ckey = waitKey(1);
 	
-	return true;
+	//if press 'A'
+	if (ckey == 65 && !nnInitialized)
+	{
+		ReadFrameFromFile("jumps.txt");
+		InitNeuralNetwork();
+		nnInitialized = true;
+		startClock = clock();
+	}
+	else if (ckey == 32 && !nnInitialized) //SpaceBar
+	{
+		SaveFrameOnFile("jumps.txt");
+		jumpCounter++;
+	}
 }
 
 int main(int argc, char **argv)
@@ -140,51 +203,66 @@ int main(int argc, char **argv)
 	setMouseCallback(computerEye.GetMainWindowName(), MouseCallbackFunc, NULL);
 	
 	while (SP->IsConnected())
-	while (true)
+	while(true)
 	{
-		computerEye.Update();
-
-		SetCropScreenByDragMouse();
-		CreateTrackBars();
-		ManageSmallScreen();
-		
-		
-		if (nnInitialized)
+		if (!nnInitialized)
 		{
-			readResult = SP->ReadData(incomingData, dataLength);
-			if (readResult > 0) {
-				if (incomingData[0] == '1')
+			UpdateScreens();
+		}
+		else
+		{
+			for (size_t i = 0; i < w->GetPlayers().size(); i++)
+			{
+				isEndGame = false;
+				vector<float> weights = w->GetPlayers().at(i)->GetChromosome().GetWeights();
+				neuralNetwork->SetWeights(weights.data());
+
+				SP->WriteData("1", 2);
+				canOperate = false;
+				Sleep(200);
+				
+				startClock = clock();
+				duration = 0;
+
+				while (!isEndGame)
 				{
-					canOperate = true;
+					UpdateScreens();
+					UpdateSerial();
+
+					fann_type* out = neuralNetwork->Run(computerEye.GetSmallScreen().data);
+
+					//cout << "OUT:" << out[0] << "  -  TIME: " << duration << endl;
+					if (out[0] > 0.5f && canOperate)
+					{
+						SP->WriteData("1", 2);
+						canOperate = false;
+					}
+
+					//UPDATE CLOCK
+					duration = (clock() - startClock) / (float)CLOCKS_PER_SEC;
+					w->SetTimer(duration);
+
+					isEndGame = CheckEndGameState(out[0]);
+					if(isEndGame)
+						Sleep(500);
+				}
+
+				if (isEndGame)
+				{
+					UpdateSerial();
+					w->UpdatePlayerFitness(i, duration);
+
+					cout << "-------------------------" << endl;
+					cout << "END GAME for Player: " << i << endl;
+					cout << "total time:" << duration << endl;
+					cout << "-------------------------" << endl;
+					endGameClock = clock();
 				}
 			}
-			fann_type* out = neuralNetwork->Run(computerEye.GetSmallScreen().data); 
-			isEndGame = CheckEndGameState(out[0]);
 
-			if (isEndGame)
-			{
-				cout << "END GAME" << endl;
-			}
-			else
-			{
-				cout << "OUT:" << out[0] << endl;
-				if (out[0] > 0.5f && canOperate)
-				{
-					SP->WriteData("1", 2);
-					canOperate = false;
-				}
-			}
+			//update population
+			w->UpdatePopulation();
 		}
-
-		int ckey = waitKey(1); 
-
-		//if press 'A'
-		if (ckey == 65 && !nnInitialized)
-		{
-			InitNeuralNetwork();
-			nnInitialized = true;
-		}
-
 
 	}
 
